@@ -3,7 +3,10 @@ import {
   readTasks,
   updateTask,
   updateStatus,
-  deleteTask
+  deleteTask,
+  searchTask,
+  filtertaskByStatus,
+  sortTaskByDate
 } from "./tasks.js";
 import {
   getTaskFormData,
@@ -21,16 +24,55 @@ document.addEventListener("DOMContentLoaded", () => {
   const cancelTaskBtn = document.getElementById("cancel-task-btn");
   const taskList = document.getElementById("task-list");
 
+  // Controles de búsqueda, filtros y ordenamiento
+  const searchInput = document.getElementById("search-input");
+  const statusFilter = document.getElementById("status-filter");
+  const sortSelect = document.getElementById("sort-select");
+
   let currentEditingId = null;
 
+  // Actualiza UI combinando búsqueda, filtro y ordenamiento sin alterar estadísticas
   const refreshUI = () => {
-    const tasks = readTasks();
-    renderTasks(tasks, currentEditingId);
-    updateStats(tasks);
+    const allTasks = readTasks();
+
+    // Las estadísticas representan TODAS las tareas
+    updateStats(allTasks);
+
+    // Pipeline combinado: Búsqueda -> Filtro de estado -> Ordenamiento
+    const searchTerm = searchInput ? searchInput.value : "";
+    const statusVal = statusFilter ? statusFilter.value : "all";
+    const sortVal = sortSelect ? sortSelect.value : "date-desc";
+
+    let visibleTasks = searchTask(allTasks, searchTerm);
+    visibleTasks = filtertaskByStatus(visibleTasks, statusVal);
+    visibleTasks = sortTaskByDate(visibleTasks, sortVal);
+
+    renderTasks(visibleTasks, currentEditingId);
   };
 
   // Carga inicial
   refreshUI();
+
+  // Búsqueda dinámica en tiempo real
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      refreshUI();
+    });
+  }
+
+  // Filtro por estado
+  if (statusFilter) {
+    statusFilter.addEventListener("change", () => {
+      refreshUI();
+    });
+  }
+
+  // Ordenamiento
+  if (sortSelect) {
+    sortSelect.addEventListener("change", () => {
+      refreshUI();
+    });
+  }
 
   // Abrir formulario para nueva tarea
   if (newTaskBtn) {
@@ -68,8 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cambiar estado (updateStatus) desde el checkbox de la card
+  // Eventos de la lista de tareas
   if (taskList) {
+    // Cambiar estado (updateStatus)
     taskList.addEventListener("change", (e) => {
       if (e.target.classList.contains("task-status-checkbox")) {
         const card = e.target.closest(".task-item");
@@ -82,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Acciones de la card: eliminar (deleteTask), editar y guardar (updateTask)
+    // Acciones de card: eliminar (deleteTask), editar y guardar (updateTask)
     taskList.addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-action]");
       if (!btn) return;
@@ -92,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const id = Number(card.dataset.id);
       const action = btn.dataset.action;
 
-      // Eliminar tarea
       if (action === "delete") {
         deleteTask(id);
         if (currentEditingId === id) currentEditingId = null;
@@ -101,24 +143,21 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Activar modo edición en la card
       if (action === "edit") {
         currentEditingId = id;
-        toggleTaskForm(false); // Cierra form de nueva tarea si estaba abierto
+        toggleTaskForm(false);
         refreshUI();
         const editTitleInput = taskList.querySelector(`.task-item[data-id="${id}"] .edit-input-title`);
         editTitleInput?.focus();
         return;
       }
 
-      // Cancelar edición inline
       if (action === "cancel-edit") {
         currentEditingId = null;
         refreshUI();
         return;
       }
 
-      // Guardar edición (updateTask)
       if (action === "save-edit") {
         const titleInput = card.querySelector(".edit-input-title");
         const descInput = card.querySelector(".edit-input-desc");

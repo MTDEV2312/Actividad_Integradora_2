@@ -1,3 +1,5 @@
+import { totalTask } from "./tasks.js";
+
 const titleInput = document.getElementById("task-title");
 const descriptionInput = document.getElementById("task-description");
 const priorityInput = document.getElementById("task-priority");
@@ -98,9 +100,7 @@ export function showNotification(message, duration = 3000) {
 }
 
 export function updateStats(tasks = []) {
-  const total = tasks.length;
-  const completed = tasks.filter(t => t.completed).length;
-  const pending = total - completed;
+  const { total, pending, completed } = totalTask(tasks);
 
   if (totalTasksEl) totalTasksEl.textContent = total;
   if (pendingTasksEl) pendingTasksEl.textContent = pending;
