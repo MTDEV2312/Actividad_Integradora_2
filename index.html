@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestor de tareas con almacenamiento local">
+  <title>TaskManager</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="container">
+      <a class="brand" href="#">TaskManager</a>
+      <p>Organiza tu día, una tarea a la vez.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="dashboard" aria-labelledby="dashboard-title">
+      <h1 id="dashboard-title">Tu productividad</h1>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <h2>Total</h2>
+          <p id="total-tasks">0</p>
+        </article>
+
+        <article class="stat-card">
+          <h2>Pendientes</h2>
+          <p id="pending-tasks">0</p>
+        </article>
+
+        <article class="stat-card">
+          <h2>Completadas</h2>
+          <p id="completed-tasks">0</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="task-manager" aria-labelledby="tasks-title">
+      <div class="section-header">
+        <h2 id="tasks-title">Mis tareas</h2>
+        <button id="new-task-btn" type="button">
+          Nueva tarea
+        </button>
+      </div>
+
+      <div class="task-controls">
+        <label for="search-input">Buscar por título</label>
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Buscar tarea..."
+        >
+
+        <label for="status-filter">Estado</label>
+        <select id="status-filter">
+          <option value="all">Todas</option>
+          <option value="pending">Pendientes</option>
+          <option value="completed">Completadas</option>
+        </select>
+
+        <label for="sort-select">Ordenar por</label>
+        <select id="sort-select">
+          <option value="date-desc">Más recientes</option>
+          <option value="date-asc">Más antiguas</option>
+          <option value="priority">Prioridad</option>
+        </select>
+      </div>
+
+      <form id="task-form" hidden>
+        <label for="task-title">Título</label>
+        <input id="task-title" name="title" required>
+
+        <label for="task-description">Descripción</label>
+        <textarea id="task-description" name="description"></textarea>
+
+        <label for="task-priority">Prioridad</label>
+        <select id="task-priority" name="priority">
+          <option value="high">Alta</option>
+          <option value="medium" selected>Media</option>
+          <option value="low">Baja</option>
+        </select>
+
+        <button type="submit">Guardar tarea</button>
+        <button id="cancel-task-btn" type="button">Cancelar</button>
+      </form>
+
+      <ul id="task-list" aria-label="Lista de tareas">
+        <!-- JavaScript renderizará las tareas aquí -->
+      </ul>
+
+      <p id="empty-state" hidden>
+        No hay tareas que mostrar.
+      </p>
+    </section>
+
+    <div
+      id="notification"
+      role="status"
+      aria-live="polite"
+    ></div>
+  </main>
+</body>
+</html>
