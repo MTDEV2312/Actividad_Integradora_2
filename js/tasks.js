@@ -9,7 +9,7 @@ Task model
     source:String
 */
 
-import { getTasks, saveTask, clearTask } from "./storage.js";
+import { getTasks, saveTask} from "./storage.js";
 
 // CREATE
 function createTask(task) {
