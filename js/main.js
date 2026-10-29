@@ -8,6 +8,7 @@ import {
   filtertaskByStatus,
   sortTaskByDate
 } from "./tasks.js";
+import { loadAPITasksToStorage } from "./api.js";
 import {
   getTaskFormData,
   resetTaskForm,
@@ -50,8 +51,15 @@ document.addEventListener("DOMContentLoaded", () => {
     renderTasks(visibleTasks, currentEditingId);
   };
 
-  // Carga inicial
-  refreshUI();
+  // Carga inicial (consume API si no hay tareas guardadas)
+  const init = async () => {
+    if (readTasks().length === 0) {
+      await loadAPITasksToStorage(5);
+    }
+    refreshUI();
+  };
+
+  init();
 
   // Búsqueda dinámica en tiempo real
   if (searchInput) {
