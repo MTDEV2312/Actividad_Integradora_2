@@ -91,11 +91,30 @@ export function toggleTaskForm(visible) {
   }
 }
 
-export function showNotification(message, duration = 3000) {
+let notificationTimeout = null;
+
+export function showNotification(message, type = "info", duration = 4000) {
   if (!notificationEl) return;
+
+  // Compatibilidad si pasan duración como segundo parámetro numérico
+  if (typeof type === "number") {
+    duration = type;
+    type = "info";
+  }
+
+  if (notificationTimeout) {
+    clearTimeout(notificationTimeout);
+  }
+
   notificationEl.textContent = message;
-  setTimeout(() => {
+  notificationEl.className = "";
+  if (type) {
+    notificationEl.classList.add(`notification-${type}`, type);
+  }
+
+  notificationTimeout = setTimeout(() => {
     notificationEl.textContent = "";
+    notificationEl.className = "";
   }, duration);
 }
 

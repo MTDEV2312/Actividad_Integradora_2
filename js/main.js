@@ -53,10 +53,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Carga inicial (consume API si no hay tareas guardadas)
   const init = async () => {
-    if (readTasks().length === 0) {
-      await loadAPITasksToStorage(5);
+    try {
+      if (readTasks().length === 0) {
+        await loadAPITasksToStorage(5);
+      }
+    } catch (error) {
+      console.error("Error al inicializar tareas:", error);
+    } finally {
+      refreshUI();
     }
-    refreshUI();
   };
 
   init();
@@ -106,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const { isValid, errors, data } = getTaskFormData();
 
       if (!isValid) {
-        showNotification(errors.join(" | "));
+        showNotification(errors.join(" | "), "error");
         return;
       }
 
@@ -114,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
       resetTaskForm();
       toggleTaskForm(false);
       refreshUI();
-      showNotification("¡Tarea guardada exitosamente!");
+      showNotification("¡Tarea guardada exitosamente!", "success");
     });
   }
 
@@ -178,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         if (!validation.isValid) {
-          showNotification(validation.errors.join(" | "));
+          showNotification(validation.errors.join(" | "), "error");
           return;
         }
 
@@ -190,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         currentEditingId = null;
         refreshUI();
-        showNotification("¡Tarea actualizada exitosamente!");
+        showNotification("¡Tarea actualizada exitosamente!", "success");
       }
     });
   }

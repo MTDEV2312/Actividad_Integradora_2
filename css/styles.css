@@ -468,7 +468,7 @@ textarea {
   position: fixed;
   bottom: var(--space-6);
   right: var(--space-6);
-  max-width: calc(100vw - 2 * var(--space-6));
+  max-width: min(420px, calc(100vw - 2 * var(--space-6)));
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
@@ -478,10 +478,37 @@ textarea {
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
   z-index: 1000;
   display: none;
+  transition: all var(--transition-fast);
 }
 
 #notification:not(:empty) {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+#notification.notification-error,
+#notification.error {
+  background-color: var(--color-danger);
+  color: #FFFFFF;
+  border-left: 4px solid #7f1d1d;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+}
+
+#notification.notification-success,
+#notification.success {
+  background-color: var(--color-success);
+  color: #FFFFFF;
+  border-left: 4px solid #064e3b;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+}
+
+#notification.notification-warning,
+#notification.warning {
+  background-color: var(--color-warning);
+  color: #FFFFFF;
+  border-left: 4px solid #78350f;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);
 }
 
 /* Responsividad completa del Viewport */
