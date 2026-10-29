@@ -9,18 +9,23 @@ Aplicación web interactiva para la gestión de tareas (*TaskManager*) desarroll
 ---
 
 ## 📋 Tabla de Contenidos
-- [Descripción del Proyecto](#-descripción-del-proyecto)
-- [Funcionalidades Principales](#-funcionalidades-principales)
-  - [1. Gestión CRUD y Validaciones](#1-gestión-crud-y-validaciones)
-  - [2. Filtros y Búsqueda Dinámica](#2-filtros-y-búsqueda-dinámica)
-  - [3. Ordenamiento Avanzado](#3-ordenamiento-avanzado)
-  - [4. Dashboard de Métricas en Tiempo Real](#4-dashboard-de-métricas-en-tiempo-real)
-  - [5. Consumo de API REST y Persistencia](#5-consumo-de-api-rest-y-persistencia)
-- [Arquitectura Técnica (Opción A — Módulos ES6)](#-arquitectura-técnica-opción-a--módulos-es6)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Instalación y Ejecución Local](#-instalación-y-ejecución-local)
-- [Verificación de Persistencia en DevTools](#-verificación-de-persistencia-en-devtools)
-- [Declaración de Inteligencia Artificial](#-declaración-de-inteligencia-artificial)
+- [TaskManager — Actividad Integradora 2](#taskmanager--actividad-integradora-2)
+  - [📋 Tabla de Contenidos](#-tabla-de-contenidos)
+  - [🚀 Descripción del Proyecto](#-descripción-del-proyecto)
+  - [✨ Funcionalidades Principales](#-funcionalidades-principales)
+    - [1. Gestión CRUD y Validaciones](#1-gestión-crud-y-validaciones)
+    - [2. Filtros y Búsqueda Dinámica](#2-filtros-y-búsqueda-dinámica)
+    - [3. Ordenamiento Avanzado](#3-ordenamiento-avanzado)
+    - [4. Dashboard de Métricas en Tiempo Real](#4-dashboard-de-métricas-en-tiempo-real)
+    - [5. Consumo de API REST y Persistencia](#5-consumo-de-api-rest-y-persistencia)
+  - [🏛️ Arquitectura Técnica (Opción A — Módulos ES6)](#️-arquitectura-técnica-opción-a--módulos-es6)
+  - [📂 Estructura del Proyecto](#-estructura-del-proyecto)
+  - [💻 Instalación y Ejecución Local](#-instalación-y-ejecución-local)
+    - [Opción 1: VS Code Live Server (Recomendado)](#opción-1-vs-code-live-server-recomendado)
+    - [Opción 2: Node.js (npx serve / http-server)](#opción-2-nodejs-npx-serve--http-server)
+    - [Opción 3: Python](#opción-3-python)
+  - [🔍 Verificación de Persistencia en DevTools](#-verificación-de-persistencia-en-devtools)
+  - [🤖 Declaración de Inteligencia Artificial](#-declaración-de-inteligencia-artificial)
 
 ---
 
@@ -142,4 +147,4 @@ Para constatar la persistencia de las tareas en el navegador:
 
 ## 🤖 Declaración de Inteligencia Artificial
 
-De acuerdo con las directrices de autoría y transparencia académica, el desarrollo contó con el soporte de **Antigravity (Gemini 3.8 Flash)** para el diseño de la interfaz de usuario (UI, paleta de colores y maquetación responsive), la estructuración modular ES6 y la redacción de la documentación (`README.md` y `AI_DECLARATION.md`). El detalle exhaustivo, los prompts clave utilizados y las correcciones de sobrecomplejidad y lógica aplicadas se encuentran documentados en el archivo [AI_DECLARATION.md](AI_DECLARATION.md).
+De acuerdo con las directrices de autoría y transparencia académica, el desarrollo contó con el soporte de **Antigravity (Gemini 3.8 Flash)** la redacción de la documentación (`README.md` y `AI_DECLARATION.md`). El detalle exhaustivo, los prompts clave utilizados y las correcciones de sobrecomplejidad y lógica aplicadas se encuentran documentados en el archivo [AI_DECLARATION.md](AI_DECLARATION.md).
