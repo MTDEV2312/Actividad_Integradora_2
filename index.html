@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -70,19 +69,44 @@
         </select>
       </div>
 
-      <form id="task-form" hidden>
-        <label for="task-title">Título</label>
-        <input id="task-title" name="title" required>
+      <form id="task-form" novalidate hidden>
+        <label for="task-title">Título <span>*</span></label>
+        <input
+          id="task-title"
+          name="title"
+          required
+          minlength="3"
+          maxlength="100"
+          aria-describedby="ayuda-task-title error-task-title"
+          placeholder="Ej. Comprar materiales"
+        >
+        <div id="ayuda-task-title" class="form-text">Entre 3 y 100 caracteres.</div>
+        <div id="error-task-title" class="invalid-feedback"></div>
 
         <label for="task-description">Descripción</label>
-        <textarea id="task-description" name="description"></textarea>
+        <textarea
+          id="task-description"
+          name="description"
+          maxlength="500"
+          aria-describedby="ayuda-task-description error-task-description"
+          placeholder="Detalles opcionales (máx. 500 caracteres)"
+        ></textarea>
+        <div id="ayuda-task-description" class="form-text">Máximo 500 caracteres (opcional).</div>
+        <div id="error-task-description" class="invalid-feedback"></div>
 
-        <label for="task-priority">Prioridad</label>
-        <select id="task-priority" name="priority">
+        <label for="task-priority">Prioridad <span>*</span></label>
+        <select
+          id="task-priority"
+          name="priority"
+          required
+          aria-describedby="ayuda-task-priority error-task-priority"
+        >
           <option value="high">Alta</option>
           <option value="medium" selected>Media</option>
           <option value="low">Baja</option>
         </select>
+        <div id="ayuda-task-priority" class="form-text">Selecciona la prioridad de la tarea.</div>
+        <div id="error-task-priority" class="invalid-feedback"></div>
 
         <button type="submit">Guardar tarea</button>
         <button id="cancel-task-btn" type="button">Cancelar</button>

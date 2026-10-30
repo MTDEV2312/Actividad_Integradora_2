@@ -286,6 +286,57 @@ textarea {
   color: var(--color-text-secondary);
 }
 
+#task-form label span {
+  color: var(--color-danger);
+}
+
+.form-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: calc(-1 * var(--space-2) + 2px);
+  margin-bottom: var(--space-1);
+}
+
+.invalid-feedback {
+  display: none;
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+  margin-top: calc(-1 * var(--space-2) + 2px);
+  margin-bottom: var(--space-1);
+  font-weight: 500;
+}
+
+input.is-invalid,
+select.is-invalid,
+textarea.is-invalid {
+  border-color: var(--color-danger) !important;
+  background-color: var(--color-danger-bg);
+}
+
+input.is-invalid:focus,
+select.is-invalid:focus,
+textarea.is-invalid:focus {
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2) !important;
+}
+
+input.is-valid,
+select.is-valid,
+textarea.is-valid {
+  border-color: var(--color-success) !important;
+  background-color: var(--color-success-bg);
+}
+
+input.is-valid:focus,
+select.is-valid:focus,
+textarea.is-valid:focus {
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2) !important;
+}
+
+.is-invalid ~ .invalid-feedback,
+.is-invalid + .invalid-feedback {
+  display: block;
+}
+
 /* Lista de tareas */
 #task-list {
   list-style: none;
@@ -530,7 +581,9 @@ textarea {
   #task-form label[for="task-description"],
   #task-form #task-description,
   #task-form label[for="task-priority"],
-  #task-form #task-priority {
+  #task-form #task-priority,
+  #task-form .form-text,
+  #task-form .invalid-feedback {
     grid-column: span 2;
   }
 

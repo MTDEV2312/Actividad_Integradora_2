@@ -10,13 +10,14 @@ import {
 } from "./tasks.js";
 import { loadAPITasksToStorage } from "./api.js";
 import {
-  getTaskFormData,
   resetTaskForm,
   toggleTaskForm,
   renderTasks,
   updateStats,
   showNotification,
-  validateTaskInput
+  validateTaskInput,
+  validateFormUI,
+  updateFieldValidationUI
 } from "./dom.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -24,6 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const newTaskBtn = document.getElementById("new-task-btn");
   const cancelTaskBtn = document.getElementById("cancel-task-btn");
   const taskList = document.getElementById("task-list");
+
+  // Controles del formulario principal
+  const titleInput = document.getElementById("task-title");
+  const descriptionInput = document.getElementById("task-description");
+  const priorityInput = document.getElementById("task-priority");
 
   // Controles de búsqueda, filtros y ordenamiento
   const searchInput = document.getElementById("search-input");
@@ -87,6 +93,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Validaciones en tiempo real para el formulario de tareas (blur / input / change)
+  if (titleInput) {
+    titleInput.addEventListener("blur", () => {
+      validateFormUI("title");
+    });
+    titleInput.addEventListener("input", () => {
+      if (titleInput.classList.contains("is-invalid") || titleInput.classList.contains("is-valid")) {
+        validateFormUI("title");
+      }
+    });
+  }
+
+  if (descriptionInput) {
+    descriptionInput.addEventListener("blur", () => {
+      validateFormUI("description");
+    });
+    descriptionInput.addEventListener("input", () => {
+      if (descriptionInput.classList.contains("is-invalid") || descriptionInput.classList.contains("is-valid")) {
+        validateFormUI("description");
+      }
+    });
+  }
+
+  if (priorityInput) {
+    priorityInput.addEventListener("change", () => {
+      validateFormUI("priority");
+    });
+  }
+
   // Abrir formulario para nueva tarea
   if (newTaskBtn) {
     newTaskBtn.addEventListener("click", () => {
@@ -103,23 +138,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Crear tarea desde formulario principal
+  // Crear tarea desde formulario principal con validación completa y accesible
   if (taskForm) {
     taskForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const { isValid, errors, data } = getTaskFormData();
+      const validation = validateFormUI("all");
 
-      if (!isValid) {
-        showNotification(errors.join(" | "), "error");
+      if (!validation.isValid) {
+        showNotification(validation.errors.join(" | "), "error");
         return;
       }
 
-      createTask(data);
+      createTask(validation.data);
       resetTaskForm();
       toggleTaskForm(false);
       refreshUI();
       showNotification("¡Tarea guardada exitosamente!", "success");
+    });
+
+    taskForm.addEventListener("reset", () => {
+      resetTaskForm();
     });
   }
 
@@ -172,17 +211,27 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (action === "save-edit") {
-        const titleInput = card.querySelector(".edit-input-title");
-        const descInput = card.querySelector(".edit-input-desc");
-        const prioritySelect = card.querySelector(".edit-input-priority");
+        const titleInputEdit = card.querySelector(".edit-input-title");
+        const descInputEdit = card.querySelector(".edit-input-desc");
+        const prioritySelectEdit = card.querySelector(".edit-input-priority");
+        const errTitleEdit = card.querySelector(".edit-error-title");
+        const errDescEdit = card.querySelector(".edit-error-desc");
 
         const validation = validateTaskInput(
-          titleInput ? titleInput.value : "",
-          descInput ? descInput.value : "",
-          prioritySelect ? prioritySelect.value : "medium"
+          titleInputEdit ? titleInputEdit.value : "",
+          descInputEdit ? descInputEdit.value : "",
+          prioritySelectEdit ? prioritySelectEdit.value : "medium"
         );
 
+        updateFieldValidationUI(titleInputEdit, errTitleEdit, validation.fieldErrors.title);
+        updateFieldValidationUI(descInputEdit, errDescEdit, validation.fieldErrors.description);
+
         if (!validation.isValid) {
+          if (validation.fieldErrors.title && titleInputEdit) {
+            titleInputEdit.focus();
+          } else if (validation.fieldErrors.description && descInputEdit) {
+            descInputEdit.focus();
+          }
           showNotification(validation.errors.join(" | "), "error");
           return;
         }
